@@ -17,14 +17,16 @@ class Vehicle
         int max_speed;
         float max_force;
         sf::CircleShape body;
+		float rotation;
     public:
         Vehicle()
         {
             this->pos = sf::Vector2f(0.0f, 0.0f);
             this->velocity = sf::Vector2f(1.0f, 1.0f);
             this->max_speed = 10;
-            this->max_force = 0.01f;
-            this->body = sf::CircleShape(10.0f);
+            this->max_force = 0.05f;
+            this->body = sf::CircleShape(15.0f, 3);
+			this->rotation = 0.f;
         }
         void move(sf::Vector2f target)
         {
@@ -32,16 +34,11 @@ class Vehicle
             sf::Vector2f steering = desired_velocity - velocity;
             velocity += mult(steering, max_force);
             pos += velocity;
-            body.setPosition(pos);
+            body.setPosition(sf::Vector2f(pos.x, pos.y));
+			rotation = getHeading(velocity);
+			body.setRotation(fmod(rotation + 90.f, 360.f));
         }
         sf::CircleShape getBody() {return this->body;}
-        sf::VertexArray getVelocityLine() 
-        {
-            sf::VertexArray line = sf::VertexArray(sf::LinesStrip, 2);
-            line[0].position = this->pos;
-            line[1].position = sf::Vector2f(this->pos.x + this->velocity.x, this->pos.y + this->velocity.y);
-            return line;
-        }
 };
 
 #endif

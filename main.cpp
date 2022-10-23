@@ -13,6 +13,7 @@ int main()
     sf::Vector2f target = sf::Vector2f(640.0f, 360.0f);
     sf::CircleShape target_dot = sf::CircleShape(5.0f);
     target_dot.setPosition(target);
+	std::string input;
 
     Vehicle vehicle;
     
@@ -40,7 +41,6 @@ int main()
 
         window.draw(vehicle.getBody());
         window.draw(target_dot);
-        window.draw(vehicle.getVelocityLine());
         window.display();
     }
     return 0;
