@@ -22,8 +22,8 @@ class Vehicle
         {
             this->pos = sf::Vector2f(0.0f, 0.0f);
             this->velocity = sf::Vector2f(1.0f, 1.0f);
-            this->max_speed = 10;
-            this->max_force = 0.01f;
+            this->max_speed = 20;
+            this->max_force = 0.03f;
             this->body = sf::CircleShape(10.0f);
         }
         void move(sf::Vector2f target)
@@ -32,15 +32,19 @@ class Vehicle
             sf::Vector2f steering = desired_velocity - velocity;
             velocity += mult(steering, max_force);
             pos += velocity;
-            body.setPosition(pos);
+            body.setPosition(sf::Vector2f(pos.x - 5.f, pos.y - 5.f));
         }
         sf::CircleShape getBody() {return this->body;}
-        sf::VertexArray getVelocityLine() 
+        sf::RectangleShape getVelocityLine() 
         {
-            sf::VertexArray line = sf::VertexArray(sf::LinesStrip, 2);
-            line[0].position = this->pos;
-            line[1].position = sf::Vector2f(this->pos.x + this->velocity.x, this->pos.y + this->velocity.y);
-            return line;
+            //sf::VertexArray line = sf::VertexArray(sf::LinesStrip, 2);
+            //line[0].position = this->pos;
+            //line[1].position = sf::Vector2f(this->pos.x + this->velocity.x, this->pos.y + this->velocity.y);
+			sf::RectangleShape line(sf::Vector2f(10 * getMag(this->velocity), 2.f));
+			line.setPosition(this->pos);
+			line.setRotation(getHeading(this->velocity));
+			line.setFillColor(sf::Color(166, 8, 5));
+			return line;
         }
 };
 
